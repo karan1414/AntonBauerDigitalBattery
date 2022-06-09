@@ -15,7 +15,8 @@ const fs = require('fs');
         let capacityCount = 0
         let mountCount = 0
         let resourceArr = []
-
+        
+//      First try to get the details from window object.
         try {
             resourceArr = await page.evaluate(()=>{
                 let productsObj = window.BOLD.products
@@ -37,8 +38,11 @@ const fs = require('fs');
         } catch (error) {
             console.log(error);
         }
-
+//     If details are not found in window object the following code is executed to scrape the details.
         if (resourceArr.length === 0){
+            
+//     Count the number of capacity options and mount options.
+            
             const variantSections = await page.$$('div.variant-section.clearfix')
             for (const variantSection of variantSections){
                 try {
@@ -54,7 +58,8 @@ const fs = require('fs');
                     console.log(error);
                 }
             }
-    
+
+// iterate on the number of capacity options and mount options to get all possible product variations.            
             for (i = 1; i <= capacityCount; i++){
                 productDetailDict = {}
                 for(j = mountCount; j >= 1; j--){
@@ -87,7 +92,7 @@ const fs = require('fs');
     
         }
 
-        
+//      Write the data found to a json file.
         fs.writeFile(
             'antonBauerDigitalBatteryVariants.json', 
             JSON.stringify(resourceArr, null, 2), 
