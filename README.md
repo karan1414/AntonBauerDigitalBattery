@@ -10,4 +10,8 @@ What the script does and the approach:
 To Test the code:
 1. run npm install to install all the dependencies.
 2. run node app.js
-3. 
+
+
+P.S This was my first time scraping using js.
+
+Please do let me know where I can improve.
